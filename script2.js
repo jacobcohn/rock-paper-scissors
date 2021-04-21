@@ -18,9 +18,11 @@ let computerScore = 0;
 let playerScore = 0;
 
 // make variables for buttons
+const btns = document.querySelectorAll('button');
 const rockBtn = document.querySelector('#rock-button');
 const paperBtn = document.querySelector('#paper-button');
 const scissorsBtn = document.querySelector('#scissors-button');
+const restartBtn = document.querySelector('#restart-button');
 
 // playRound when player clicks a button
 rockBtn.addEventListener('click', () => {
@@ -32,6 +34,11 @@ paperBtn.addEventListener('click', () => {
 scissorsBtn.addEventListener('click', () => {
     playRound('Scissors');
 });
+
+// make variable for #score-div and add css
+const scoreDiv = document.querySelector('#score-div');
+scoreDiv.style.cssText = 'width: 100vw; height: 25vh;'
+scoreDiv.innerHTML = "You: " + playerScore + '<br />' + "Computer: " + computerScore;
 
 // main function
 function playRound(playerSelection) {
@@ -46,9 +53,10 @@ function playRound(playerSelection) {
         // player wins
         // add 1 point to player's score
         playerScore += 1;
-        // alert for score and this round
-        alert("You: " + playerScore + "\n" + "Computer: " + computerScore + '\n'
-         + 'You Win! ' + playerSelection + ' beats ' + computerSelection);
+        // displays score and this round and checks for 5 wins
+        scoreDiv.innerHTML = "You: " + playerScore + '<br />' + "Computer: " + computerScore + '<br />'
+        + 'You Win! ' + playerSelection + ' beats ' + computerSelection;
+        gameOver();
         return;
     } else if (
         (playerSelection === "Rock" && computerSelection === "Paper")
@@ -58,9 +66,10 @@ function playRound(playerSelection) {
         // computer wins
         // add 1 point to player's score
         computerScore += 1;
-        // alert for score and this round
-        alert("You: " + playerScore + "\n" + "Computer: " + computerScore + '\n'
-         + 'You Lose! ' + computerSelection + ' beats ' + playerSelection);
+        // displays score and this round and checks for 5 wins
+        scoreDiv.innerHTML = "You: " + playerScore + '<br />' + "Computer: " + computerScore + '<br />'
+         + 'You Lose! ' + computerSelection + ' beats ' + playerSelection;
+         gameOver();
         return;
     } else if (
         (playerSelection === "Rock" && computerSelection === "Rock")
@@ -68,37 +77,33 @@ function playRound(playerSelection) {
         || (playerSelection === "Scissors" && computerSelection === "Scissors")
     ) {
         // tie
-        // alert for score and this round
-        alert("You: " + playerScore + "\n" + "Computer: " + computerScore + '\n'
-         + 'Tie! ' + playerSelection + ' ties ' + computerSelection);
+        // displays score and this round
+        scoreDiv.innerHTML = "You: " + playerScore + '<br />' + "Computer: " + computerScore + '<br />'
+         + 'Tie! ' + playerSelection + ' ties ' + computerSelection;
         return;
     }
 }
 
-/*
-// function for playing up to 5
-function game() {
-    // make a while loop as long as both scores are under 5
-    while (playerScore < 5 && computerScore < 5) {
-        playRound(playerSelection);
-    }
-    // make an alert for the end of the game
-    if (playerScore > computerScore) {
-        alert(
-            'Congrations! You Won!' + "\n" + "You beat the Computer 5 to "
-             + computerScore + '!' + '\n' + 'Reload to Play Again!'
-        );
+// function that displays Game Over after one score is 5
+function gameOver () {
+    if (playerScore === 5) {
+        scoreDiv.innerHTML = 'Congrations! You Won!' + '<br />' + "You beat the Computer 5 to "
+        + computerScore + '!' + '<br />' + 'Reload to Play Again!';
+        // changes classes of buttons (will see it more than once)
+        btns.forEach((i) => i.classList.toggle('hidden'));
         return;
-    } else {
-        alert(
-            'You Lost! Better Luck Next Time!' + "\n" + "The Computer beat You 5 to "
-             + playerScore + '!' + '\n' + 'Reload to Play Again!'
-        );
+    } else if (computerScore === 5) {
+        scoreDiv.innerHTML = 'You Lost! Better Luck Next Time!' + '<br />' + "The Computer beat You 5 to "
+             + playerScore + '!' + '<br />' + 'Reload to Play Again!';
+        btns.forEach((i) => i.classList.toggle('hidden'));
         return;
-    }
+    } else return;
 }
 
-
-// start the game
-console.log(game())
-*/
+// restart the game
+restartBtn.addEventListener('click', () => {
+    playerScore = 0;
+    computerScore = 0;
+    scoreDiv.innerHTML = "You: " + playerScore + '<br />' + "Computer: " + computerScore;
+    btns.forEach((i) => i.classList.toggle('hidden'));
+});
