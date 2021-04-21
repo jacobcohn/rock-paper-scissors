@@ -88,13 +88,13 @@ function playRound(playerSelection) {
 function gameOver () {
     if (playerScore === 5) {
         scoreDiv.innerHTML = 'Congrations! You Won!' + '<br />' + "You beat the Computer 5 to "
-        + computerScore + '!' + '<br />' + 'Reload to Play Again!';
+        + computerScore + '!' + '<br />' + 'Click \"Restart Game\" to Play Again!';
         // changes classes of buttons (will see it more than once)
         btns.forEach((i) => i.classList.toggle('hidden'));
         return;
     } else if (computerScore === 5) {
         scoreDiv.innerHTML = 'You Lost! Better Luck Next Time!' + '<br />' + "The Computer beat You 5 to "
-             + playerScore + '!' + '<br />' + 'Reload to Play Again!';
+             + playerScore + '!' + '<br />' + 'Click \"Restart Game\" to Play Again!';
         btns.forEach((i) => i.classList.toggle('hidden'));
         return;
     } else return;
